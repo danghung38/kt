@@ -1,0 +1,44 @@
+{
+  "search": {
+    "validKeywords": ["iphone", "samsung", "xiaomi", "oppo"],
+    "invalidKeywords": ["xyzabc999notexist", "aaabbbccc123456"],
+    "specialChars": ["@#$%", "<script>alert(1)</script>"],
+    "vietnameseKeywords": ["điện thoại", "màn hình"],
+    "longString": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "products": {
+    "iphone17ProMax": {
+      "slug": "iphone-17-pro-max-hai-phong",
+      "name": "iPhone 17 Pro Max",
+      "url": "/products/iphone-17-pro-max-hai-phong",
+      "expectedPrice": 36990000,
+      "colors": ["Cam Vũ Trụ", "Xanh Đậm", "Trắng"],
+      "storages": ["256GB", "512GB", "1TB"]
+    },
+    "iphone17": {
+      "slug": "iphone-17-hai-phong",
+      "name": "iPhone 17",
+      "url": "/products/iphone-17-hai-phong"
+    },
+    "samsungS26Ultra": {
+      "slug": "samsung-galaxy-s26-ultra-phan-phoi-chinh-hang",
+      "name": "Samsung Galaxy S26 Ultra",
+      "url": "/products/samsung-galaxy-s26-ultra-phan-phoi-chinh-hang"
+    },
+    "redmi15": {
+      "slug": "redmi-15-phan-phoi-chinh-hang",
+      "name": "Xiaomi Redmi 15",
+      "url": "/products/redmi-15-phan-phoi-chinh-hang"
+    }
+  },
+  "navigation": {
+    "menuItems": ["iPhone", "Samsung", "OPPO", "XIAOMI"],
+    "footerLinks": ["Chính Sách Chung", "Chính Sách Bảo Mật", "Chính Sách Bảo Hành"],
+    "collections": {
+      "iphone": "/collections/iphone",
+      "samsung": "/collections/samsung",
+      "ipad": "/collections/ipad",
+      "laptop": "/collections/laptop-hai-phong"
+    }
+  }
+}

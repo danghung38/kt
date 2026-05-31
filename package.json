@@ -1,0 +1,34 @@
+{
+  "name": "mhm-playwright-testing",
+  "version": "1.0.0",
+  "description": "Kiểm thử tự động website https://mhm.vn bằng Playwright - Nhóm CT070128, CT070129, CT070111",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:chromium": "npx playwright test --project=chromium",
+    "test:firefox": "npx playwright test --project=firefox",
+    "test:search": "npx playwright test tests/search",
+    "test:detail": "npx playwright test tests/product-detail",
+    "test:cart": "npx playwright test tests/cart",
+    "test:smoke": "npx playwright test --grep @smoke",
+    "test:regression": "npx playwright test --grep @regression",
+    "test:headed": "npx playwright test --headed --project=chromium",
+    "test:debug": "npx playwright test --debug",
+    "test:ui": "npx playwright test --ui",
+    "test:report-mode": "npx playwright test --project=chromium --reporter=html",
+    "report": "npx playwright show-report"
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "automation",
+    "mhm.vn"
+  ],
+  "author": "Nhóm CT070128 - CT070129 - CT070111",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^25.9.1",
+    "dotenv": "^16.0.0",
+    "typescript": "^5.0.0"
+  }
+}

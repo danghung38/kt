@@ -1,0 +1,50 @@
+[
+  {
+    "name": "iPhone 17 Pro Max",
+    "slug": "iphone-17-pro-max-hai-phong",
+    "brand": "Apple",
+    "keyword": "iphone"
+  },
+  {
+    "name": "iPhone 17",
+    "slug": "iphone-17-hai-phong",
+    "brand": "Apple",
+    "keyword": "iphone"
+  },
+  {
+    "name": "iPhone 17 Pro",
+    "slug": "iphone-17-pro-hai-phong",
+    "brand": "Apple",
+    "keyword": "iphone"
+  },
+  {
+    "name": "Samsung Galaxy S26 Ultra",
+    "slug": "samsung-galaxy-s26-ultra-phan-phoi-chinh-hang",
+    "brand": "Samsung",
+    "keyword": "samsung"
+  },
+  {
+    "name": "Samsung Galaxy S25 Plus",
+    "slug": "samsung-galaxy-s25-plus-phan-phoi-chinh-hang",
+    "brand": "Samsung",
+    "keyword": "samsung"
+  },
+  {
+    "name": "Samsung Galaxy S25 Ultra",
+    "slug": "samsung-galaxy-s25-ultra-phan-phoi-chinh-hang",
+    "brand": "Samsung",
+    "keyword": "samsung"
+  },
+  {
+    "name": "Xiaomi Redmi 15",
+    "slug": "redmi-15-phan-phoi-chinh-hang",
+    "brand": "Xiaomi",
+    "keyword": "xiaomi"
+  },
+  {
+    "name": "Redmi Note 14 Pro 5G",
+    "slug": "redmi-note-14-pro-5g-chinh-hang-digiworld",
+    "brand": "Xiaomi",
+    "keyword": "xiaomi"
+  }
+]
