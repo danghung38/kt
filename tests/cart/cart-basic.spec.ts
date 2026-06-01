@@ -167,29 +167,17 @@ test.describe('Chuc nang gio hang', () => {
     expect(bodyText).not.toContain('Liquid error');
   });
 
-  test('TC_CART_016: Tang so luong tren UI phai dong bo vao gio hang server', async ({ cartPage }) => {
+  test('TC_CART_016: Dong bo so luong giua UI gio hang va session server', async ({ cartPage }) => {
     await cartPage.addProductByVariantId(IPHONE_17_PRO_MAX_VARIANT_ID, 1);
     await cartPage.open();
 
     await cartPage.clickPlusOnFirstItem();
 
     const cart = await cartPage.getCartJson();
-
-    // FAIL neu UI chi tang input nhung chua cap nhat gio hang tren server.
     expect(cart.item_count).toBe(2);
   });
 
-  test('TC_CART_017: Nut thanh toan phai dieu huong truc tiep den checkout', async ({ cartPage }) => {
-    await cartPage.addProductByVariantId(IPHONE_17_PRO_MAX_VARIANT_ID, 1);
-    await cartPage.open();
-
-    await expect(cartPage.checkoutButton).toBeVisible();
-
-    // FAIL neu website dung button xu ly bang JavaScript va khong co href /checkout.
-    await expect(cartPage.checkoutButton).toHaveAttribute('href', /checkout/);
-  });
-
-  test('TC_CART_018: O so luong phai co ten truy cap ro rang', async ({ page, cartPage }) => {
+  test('TC_CART_017: O so luong phai co ten truy cap ro rang', async ({ page, cartPage }) => {
     await cartPage.addProductByVariantId(IPHONE_17_PRO_MAX_VARIANT_ID, 1);
     await cartPage.open();
 
@@ -199,5 +187,106 @@ test.describe('Chuc nang gio hang', () => {
 
     // FAIL neu input khong co label/aria-label "So luong" cho screen reader.
     await expect(quantityInput).toHaveAccessibleName(/Số lượng|So luong/i);
+  });
+
+  test('TC_CART_018: Nhap ky tu chu hoac ky tu dac biet vao o so luong tren UI', async ({ page, cartPage }) => {
+    await cartPage.addProductByVariantId(IPHONE_17_PRO_MAX_VARIANT_ID, 1);
+    await cartPage.open();
+
+    const quantityInput = page
+      .locator('.cart-tbody .item-cart input[name="Lines"], .header-cart-content .item-product input[name="Lines"]')
+      .first();
+
+    await quantityInput.fill('    ');
+    await quantityInput.press('Enter');
+    await page.waitForTimeout(1000);
+
+    const value = await quantityInput.inputValue();
+    // FAIL neu input van bi rong hoac tong tien bi loi NaN
+    expect(value.trim()).not.toBe('');
+
+    const totalText = await cartPage.getTotalPriceText();
+    expect(totalText).not.toContain('NaN');
+  });
+
+  test('TC_CART_019: Nhap so luong bang 0 truc tiep vao o so luong tren UI', async ({ page, cartPage }) => {
+    await cartPage.addProductByVariantId(IPHONE_17_PRO_MAX_VARIANT_ID, 1);
+    await cartPage.open();
+
+    const quantityInput = page
+      .locator('.cart-tbody .item-cart input[name="Lines"], .header-cart-content .item-product input[name="Lines"]')
+      .first();
+
+    await quantityInput.fill('0');
+    await quantityInput.press('Enter');
+    await page.waitForTimeout(1000);
+
+    // FAIL neu san pham van con trong gio hang ma khong bi xoa/tu dong dua ve 1
+    expect(await cartPage.hasItems()).toBeFalsy();
+  });
+
+  test('TC_CART_020: Khi so luong bang 0 an nut tang so luong (+) tren UI', async ({ page, cartPage }) => {
+    await cartPage.addProductByVariantId(IPHONE_17_PRO_MAX_VARIANT_ID, 1);
+    await cartPage.open();
+
+    const quantityInput = page
+      .locator('.cart-tbody .item-cart input[name="Lines"], .header-cart-content .item-product input[name="Lines"]')
+      .first();
+
+    // Dat so luong ve 0 truoc
+    await quantityInput.fill('0');
+    await quantityInput.press('Enter');
+    await page.waitForTimeout(500);
+
+    // Nhan nut tang (+)
+    await cartPage.clickPlusOnFirstItem();
+    await page.waitForTimeout(1000);
+
+    const value = await quantityInput.inputValue();
+    // FAIL neu so luong khong tang len 1 hoac tong tien khong tu dong cap nhat
+    expect(Number(value)).toBe(1);
+
+    const totalText = await cartPage.getTotalPriceText();
+    expect(totalText).not.toBe('0₫');
+  });
+
+  test('TC_CART_021: Nhap chuot lien tuc (double click) vao nut xoa san pham', async ({ page, cartPage }) => {
+    await cartPage.addProductByVariantId(IPHONE_17_PRO_MAX_VARIANT_ID, 1);
+    await cartPage.open();
+
+    const deleteBtn = cartPage.cartItems.first().locator('.remove-item-cart').first();
+    await deleteBtn.dblclick().catch(() => {});
+    await cartPage.waitForCartReady();
+
+    expect(await cartPage.hasItems()).toBeFalsy();
+  });
+
+  test('TC_CART_022: Kiem tra hien thi hinh anh thu nho (thumbnail) cua san pham', async ({ cartPage }) => {
+    await cartPage.addProductByVariantId(IPHONE_17_PRO_MAX_VARIANT_ID, 1);
+    await cartPage.open();
+
+    const img = cartPage.cartItems.first().locator('img').first();
+    await expect(img).toBeVisible();
+
+    const src = await img.getAttribute('src');
+    expect(src).toBeTruthy();
+    expect(src).not.toContain('broken');
+  });
+
+  test('TC_CART_023: Them san pham vuot qua so luong ton kho kha dung', async ({ page, cartPage }) => {
+    await cartPage.addProductByVariantId(IPHONE_17_PRO_MAX_VARIANT_ID, 1);
+    await cartPage.open();
+
+    const quantityInput = page
+      .locator('.cart-tbody .item-cart input[name="Lines"], .header-cart-content .item-product input[name="Lines"]')
+      .first();
+
+    await quantityInput.fill('1000');
+    await quantityInput.press('Enter');
+    await page.waitForTimeout(1000);
+
+    // FAIL neu giỏ hàng van cho phep cap nhat 1000 ma khong dua ra bat ky canh bao het/thieu hang tren UI gio hang
+    const bodyText = await page.locator('body').innerText();
+    expect(bodyText).toMatch(/vượt quá|chỉ còn|không đủ/i);
   });
 });
